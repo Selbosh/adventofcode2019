@@ -1,0 +1,5 @@
+library(adventofcode2019)
+input01 <- readLines(input_file(1))
+input01 <- as.integer(input01)
+message(sum(fuel(input01)))
+message(sum(sapply(input01, add_fuel)))

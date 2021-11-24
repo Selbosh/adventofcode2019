@@ -1,0 +1,19 @@
+Package: adventofcode2019
+Type: Package
+Title: Advent of Code 2019
+Version: 0.0.1.9000
+Author: David Antony Selby
+Maintainer: David Antony Selby <david.selby@manchester.ac.uk>
+Description: Solutions written in R for puzzles in Advent of Code 2019 <https://adventofcode/2019>
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+ByteCompile: true
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Imports: 
+    dplyr,
+    tidyr
