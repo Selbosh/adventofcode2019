@@ -1,4 +1,5 @@
 #' Sunny with a Chance of Asteroids
+#'
 #' You're starting to sweat as the ship makes its way toward Mercury. The Elves suggest that you get the air conditioner working by upgrading your ship computer to support the Thermal Environment Supervision Terminal.
 #'
 #' The Thermal Environment Supervision Terminal (TEST) starts by running a diagnostic program (your puzzle input). The TEST diagnostic program will run on your existing Intcode computer after a few modifications:
@@ -49,30 +50,30 @@
 #' Finally, the program will output a diagnostic code and immediately halt. This final output isn't an error; an output followed immediately by a halt means the program finished. If all outputs were zero except the diagnostic code, the diagnostic program ran successfully.
 #'
 #' After providing 1 to the only input instruction and passing all the tests, what diagnostic code does the program produce?
-day5 <- function(program, input = 1) {
+#' @rdname day05
+#' @export
+diagnostic_program <- function(program, input = 1) {
   i <- 1
   repeat {
     op <- program[i] %% 100    # get last two digits of instruction
-    mode1 <- program[i] %/% 100 %% 10 # hundreds digit
-    mode2 <- program[i] %/% 1000      # thousands digit
-    mode3 <- program[i] %/% 10000     # tens of thousands digit
-    arg1 <- if (mode1) program[i + 1] else program[program[i + 1] + 1]
-    arg2 <- if (mode2) program[i + 2] else program[program[i + 2] + 1]
-    arg3 <- program[i + 3]#if (mode3) program[i + 3] else program[program[i + 3] + 1]
-    if (op == 1) {
-      program[arg3 + 1] <- arg1 + arg2
-    } else if (op == 2) {
-      program[arg3 + 1] <- arg1 * arg2
+    mode <- c(program[i] %/% 100 %% 10, # hundreds digit
+              program[i] %/% 1000,      # thousands digit
+              program[i] %/% 10000)     # tens of thousands digit
+    if (op == 4) {
+      message(if (mode[1]) program[i + 1] else program[program[i + 1] + 1])
+      i <- i + 2
     } else if (op == 3) {
-      program[arg1 + 1] <- input
-    } else if (op == 4) {
-      return(arg1)
+      program[program[i + 1] + 1] <- input
+      i <- i + 2
     } else if (op == 99) {
-      stop('Halt')
-    }
-    i <- i + nchar(program[i]) # increase instruction pointer by #values
-    if (program[i] == 99)
+      message('Halt')
       break
+    } else {
+      fun <- switch(op, `1` = `+`, `2` = `*`)
+      program[program[i + 3] + 1] <- fun(if (mode[1]) program[i + 1] else program[program[i + 1] + 1],
+                                         if (mode[2]) program[i + 2] else program[program[i + 2] + 1])
+      i <- i + 4
+    }
   }
   program
 }

@@ -2,6 +2,7 @@
 
 export(add_fuel)
 export(compute)
+export(diagnostic_program)
 export(find_intersection)
 export(find_intersection2)
 export(fuel)
